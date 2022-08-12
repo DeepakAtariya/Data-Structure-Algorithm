@@ -51,22 +51,8 @@ class LinkedList {
                         this.addLast(data);
                     } else {
 
-                        // taking first node reference for traversing
-                        Node temp = this.head;
-
-                        int count = 1;
-
-                        // traversing to the last element
-                        while (temp != null) {
-                            if (count == position) {
-                                break;
-                            }
-
-                            // this.print(temp.data + " at " + count);
-                            temp = temp.next;
-                            count++;
-
-                        }
+                        // searching node for particular position.
+                        Node temp = this.find(position);
 
                         // this.print(temp.data + " is found at " + count);
                         // storing node in last position
@@ -139,6 +125,9 @@ class LinkedList {
         }
     }
 
+    /**
+     * 
+     */
     public void show() {
         try {
 
@@ -147,17 +136,27 @@ class LinkedList {
                 System.out.print(temp.data + " -> ");
                 temp = temp.next;
             }
-            System.out.print("null");
+            System.out.println("null");
 
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
+    /**
+     * 
+     * @param message
+     * 
+     */
     public void print(String message) {
         System.out.println(message);
     }
 
+    /**
+     * 
+     * @return
+     * 
+     */
     public int size() {
         Node temp = this.head;
 
@@ -170,6 +169,104 @@ class LinkedList {
         return count;
     }
 
+    public boolean deleteFirst() {
+
+        try {
+            if (this.head == null) {
+                this.print("Nothing to delete");
+            } else {
+                this.print("Going to delete : " + this.head.data);
+                this.head = this.head.next;
+            }
+        } catch (Exception e) {
+            this.print("Error occured");
+        }
+        return false;
+    }
+
+    public boolean deleteLast() {
+
+        try {
+            if (this.head == null) {
+                this.print("Nothing to delete");
+            } else {
+                Node temp = this.head;
+                while (temp.next.next != null) {
+                    temp = temp.next;
+                }
+                this.print("Going to delete : " + temp.next.data);
+                temp.next = null;
+            }
+        } catch (Exception e) {
+            this.print("Error occured");
+        }
+        return false;
+    }
+
+    public boolean delete(int position) {
+
+        try {
+            int listSize = this.size();
+
+            // checking whether list is empty or not
+            if (this.head == null) {
+                if (position > 1) {
+                    System.out.println("List is empty and nothing can be deleted...");
+                }
+            } else {
+
+                if (position <= 0) {
+                    if (position < 0) {
+                        this.print("Given position is smaller than list size");
+                    }
+                } else {
+
+                    if (position == 1) {
+                        // delete first element
+                        this.deleteFirst();
+                    } else if (position == listSize) {
+                        // delete last element
+                        this.deleteLast();
+                    } else {
+                        if (position > listSize) {
+                            this.print("Given position is greater than list size");
+                        } else {
+
+                            // searching node for particular position.
+                            Node temp = this.find(position);
+
+                            this.print("Going to delete : " + temp.next.data);
+                            temp.next = temp.next.next;
+                            // temp.next = null;
+                        }
+                    }
+
+                }
+
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public Node find(int position) {
+        position = position - 1;
+        // taking first node reference for traversing
+        Node temp = this.head;
+        int count = 1;
+        // traversing to the last element
+        while (temp.next.next != null) {
+            if (count == position) {
+                break;
+            }
+            temp = temp.next;
+            count++;
+        }
+        return temp;
+    }
+
     public static void main(String[] args) {
         LinkedList llist = new LinkedList();
 
@@ -178,5 +275,9 @@ class LinkedList {
         llist.addFirst(50);
         llist.add(1, 40);
         llist.show();
+        llist.delete(3);
+        llist.show();
+        // llist.deleteLast();
+        // llist.show();
     }
 }
