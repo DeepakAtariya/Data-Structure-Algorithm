@@ -13,6 +13,7 @@ class LinkedList {
 
     /**
      * addLast insert an element at first position by default
+     * Completed
      * 
      * @param data
      */
@@ -353,6 +354,27 @@ class LinkedList {
         return false;
     }
 
+    public void sort() {
+        Node fp = this.head;
+
+        while (fp.next.next != null) {
+            Node sp = fp.next;
+            while (sp.next != null) {
+                if (fp.data > sp.data) {
+                    this.swap(fp, sp);
+                }
+                sp = sp.next;
+            }
+            fp = fp.next;
+        }
+    }
+
+    public void swap(Node fp, Node sp) {
+        int data = fp.data;
+        fp.data = sp.data;
+        sp.data = data;
+    }
+
     public static void main(String[] args) {
         LinkedList llist = new LinkedList();
 
@@ -364,7 +386,8 @@ class LinkedList {
         // llist.update(4, 201);
         // llist.update(2, 101);
         llist.show();
-        // llist.deleteLast();
+        llist.sort();
+        llist.show();
         // llist.show();
     }
 }
