@@ -1,14 +1,12 @@
-class LinkedList {
+class DoublyLinkedList {
 
     Node head = null;
+    Node end = null;
 
     class Node {
         int data = 0;
         Node next = null;
-
-        // public int toString(Node node) {
-        // return node.data;
-        // }
+        Node pre = null;
     }
 
     /**
@@ -53,12 +51,15 @@ class LinkedList {
                     } else {
 
                         // searching node for particular position.
-                        Node temp = this.find(position);
+                        Node found = this.find(position);
+                        // this.print("Found element " + found.data);
 
                         // this.print(temp.data + " is found at " + count);
                         // storing node in last position
-                        node.next = temp.next;
-                        temp.next = node;
+                        node.next = found.next;
+                        node.pre = found;
+                        found.next.pre = node;
+                        found.next = node;
                     }
                 }
 
@@ -80,25 +81,20 @@ class LinkedList {
             // creating a node
             Node node = new Node();
             node.data = data;
-            node.next = null;
 
             // checking whether list is empty or not
             if (this.head == null) {
                 // Going to push first element
                 this.head = node;
+                this.end = node;
 
             } else {
                 // taking first node reference for traversing
-                Node temp = this.head;
-
-                // traversing to the last element
-                while (temp.next != null) {
-
-                    temp = temp.next;
-                }
-
+                Node temp = this.end;
                 // storing node in last position
+                node.pre = temp;
                 temp.next = node;
+                this.end = node;
             }
 
         } catch (Exception e) {
@@ -118,9 +114,13 @@ class LinkedList {
             node.data = data;
             // assigin old reference to new node
             node.next = this.head;
-
-            // assiging the new node to head (first node)
+            if (this.head == null) {
+                this.end = node;
+            } else {
+                this.head.pre = node;
+            }
             this.head = node;
+            // this.end = node;
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -129,15 +129,27 @@ class LinkedList {
     /**
      * 
      */
-    public void show() {
+    public void show(Boolean direction) {
         try {
 
-            Node temp = this.head;
-            while (temp != null) {
-                System.out.print(temp.data + " -> ");
-                temp = temp.next;
+            if (direction) {
+                this.print("|->->->->Forward->direction->->->->");
+                Node temp = this.head;
+                while (temp != null) {
+                    System.out.print(temp.data + " -> ");
+                    temp = temp.next;
+                }
+                System.out.println("null");
+            } else {
+                this.print("<-<-<-<-Backward<-direction<-<-<-<-|");
+                Node temp = this.end;
+                while (temp != null) {
+                    System.out.print(temp.data + " -> ");
+                    temp = temp.pre;
+                }
+                System.out.println("null");
+
             }
-            System.out.println("null");
 
         } catch (Exception e) {
             System.out.println(e);
@@ -178,6 +190,7 @@ class LinkedList {
             } else {
                 this.print("Going to delete : " + this.head.data);
                 this.head = this.head.next;
+                this.head.pre = null;
             }
             return true;
         } catch (Exception e) {
@@ -192,12 +205,14 @@ class LinkedList {
             if (this.head == null) {
                 this.print("Nothing to delete");
             } else {
-                Node temp = this.head;
-                while (temp.next.next != null) {
-                    temp = temp.next;
-                }
-                this.print("Going to delete : " + temp.next.data);
-                temp.next = null;
+                // Node temp = this.head;
+                // while (temp.next.next != null) {
+                // temp = temp.next;
+                // }
+                // this.print("Going to delete : " + temp.next.data);
+                // temp.next = null;
+                this.end.pre.next = null;
+                this.end = this.end.pre;
             }
         } catch (Exception e) {
             this.print("Error occured");
@@ -235,10 +250,11 @@ class LinkedList {
                         } else {
 
                             // searching node for particular position.
-                            Node temp = this.find(position);
+                            Node found = this.find(position);
 
-                            this.print("Going to delete : " + temp.next.data);
-                            temp.next = temp.next.next;
+                            this.print("Going to delete : " + found.next.data);
+                            found.next = found.next.next;
+                            found.next.pre = null;
                             // temp.next = null;
                         }
                     }
@@ -254,7 +270,15 @@ class LinkedList {
         return false;
     }
 
+    /**
+     * This function should be more flexible to search in a list in both directions.
+     * Currently it is searching in one direction.
+     * 
+     * @param position
+     * @return
+     */
     public Node find(int position) {
+        // this.print("Finding for " + position);
         position = position - 1;
         // taking first node reference for traversing
         Node temp = this.head;
@@ -289,7 +313,6 @@ class LinkedList {
 
                     if (position == 1) {
                         // delete first element
-                        
                         this.updateFirst(data);
                     } else if (position == listSize) {
                         // delete last element
@@ -377,20 +400,35 @@ class LinkedList {
     }
 
     public static void main(String[] args) {
-        LinkedList llist = new LinkedList();
+        DoublyLinkedList llist = new DoublyLinkedList();
 
-        llist.addLast(100);
-        llist.addLast(200);
+        // llist.addLast(100);
+        // llist.addLast(200);
         llist.addFirst(50);
-        llist.addFirst(500);
-        llist.add(1, 40);
-        llist.show();
-        llist.update(70, 39);
+        llist.addFirst(40);
+        // llist.addLast(20);
+        // llist.addLast(10);
+        // llist.addLast(05);
+        llist.add(2, 1000);
+        llist.add(2, 2000);
+        // llist.deleteFirst();
+        // llist.deleteLast();
+        llist.update(2, 41);
+        llist.update(3, 42);
+        llist.delete(200);
+        llist.show(true);
+
+        // llist.show(true);
+        // llist.add(2, 3000);
+        // llist.print(Integer.toString(llist.end.data));
+        // llist.print(Integer.toString(llist.head.data));
+        // llist.addFirst(500);
+        // llist.add(1, 40);
         // llist.update(3, 39);
         // llist.update(4, 201);
         // llist.update(2, 101);
-        llist.show();
         // llist.sort();
+        // llist.show(false);
         // llist.show();
         // llist.show();
     }
