@@ -100,9 +100,10 @@ class LinkedList {
 
                 // storing node in last position
                 // temp.next = node;
-                node.next = this.head.next;
+                node.next = temp;
                 this.head.next = node;
                 this.head = node;
+				// 1-2-3-4
             }
 
         } catch (Exception e) {
@@ -128,7 +129,7 @@ class LinkedList {
                 // this.head.next = node;
                 node.next = this.head.next;
                 this.head.next = node;
-                this.head = node;
+                //this.head = node;
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -140,11 +141,11 @@ class LinkedList {
      */
     public void show() {
         try {
-            Node temp = this.head;
+            Node temp = this.head.next;
             do {
                 System.out.print(temp.data + " -> ");
                 temp = temp.next;
-            } while (temp != this.head);
+            } while (temp != this.head.next);
             System.out.println("null");
         } catch (Exception e) {
             System.out.println(e);
@@ -387,19 +388,20 @@ class LinkedList {
     public static void main(String[] args) {
         LinkedList llist = new LinkedList();
 
-        // llist.addLast(100);
-        // llist.addLast(200);
-        // llist.addLast(300);
+        llist.addLast(100);
+         llist.addLast(200);
+       // llist.addLast(300);
         // llist.addLast(400);
         // llist.addLast(500);
         // llist.addFirst(500);
         // llist.add(1, 40);
-        llist.addFirst(40);
-        llist.addFirst(50);
-        llist.addFirst(60);
-        llist.addFirst(70);
-        llist.show();
-        // llist.print(String.valueOf(llist.head.next.next.next.data));
+        //llist.addFirst(40);
+        //llist.addFirst(50);
+        //llist.addFirst(60);
+        //llist.addFirst(70);
+         llist.show();
+		 //llist.print(String.valueOf(llist.size()));
+        //llist.print(String.valueOf(llist.head.next.next.data));
         // llist.update(70, 39);
         // llist.update(3, 39);
         // llist.update(4, 201);
@@ -409,4 +411,4 @@ class LinkedList {
         // llist.show();
         // llist.show();
     }
-}
+} 
