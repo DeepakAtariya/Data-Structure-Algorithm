@@ -1,8 +1,8 @@
-class LinkedList {
+class CircularLinkedList {
 
     Node head = null;
 
-    class Node {
+    static class Node {
         int data = 0;
         Node next = null;
 
@@ -21,6 +21,7 @@ class LinkedList {
         try {
             position = position - 1;
             int listSize = this.size();
+            // this.print("list size : " + String.valueOf(listSize));
 
             // creating a node
             Node node = new Node();
@@ -29,29 +30,29 @@ class LinkedList {
 
             // checking whether list is empty or not
             if (this.head == null) {
-                if (position > 1) {
-                    System.out.println("List is empty and position is invalid. we are putting in first position");
+                if (position < 1) {
+                    // System.out.println("List is empty and position is invalid. we are putting in
+                    // first position");
                 }
                 // Going to push first element
                 this.head = node;
+                this.head.next = this.head;
 
             } else {
-
                 if (position <= 0) {
                     if (position < 0) {
-                        this.print("Invalid postion given. Adding at first");
+                        // this.print("Invalid postion given. Adding at first");
                     }
                     node = null;
                     this.addFirst(data);
                 } else {
                     if (position >= listSize) {
                         if (position > listSize) {
-                            this.print("Invalid position given. Adding at last");
+                            // this.print("Invalid position given. Adding at last");
                         }
                         node = null;
                         this.addLast(data);
                     } else {
-
                         // searching node for particular position.
                         Node temp = this.find(position);
 
@@ -61,7 +62,6 @@ class LinkedList {
                         temp.next = node;
                     }
                 }
-
             }
 
         } catch (Exception e) {
@@ -90,19 +90,19 @@ class LinkedList {
 
             } else {
                 // taking first node reference for traversing
-                Node temp = this.head;
+                Node temp = this.head.next;
 
                 // traversing to the last element
                 do {
-                    System.out.print(temp.data + " -> ");
                     temp = temp.next;
-                } while (temp != this.head);
+                } while (temp != this.head.next);
 
                 // storing node in last position
                 // temp.next = node;
-                node.next = this.head.next;
+                node.next = temp;
                 this.head.next = node;
                 this.head = node;
+                // 1-2-3-4
             }
 
         } catch (Exception e) {
@@ -128,7 +128,7 @@ class LinkedList {
                 // this.head.next = node;
                 node.next = this.head.next;
                 this.head.next = node;
-                this.head = node;
+                // this.head = node;
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -140,12 +140,12 @@ class LinkedList {
      */
     public void show() {
         try {
-            Node temp = this.head;
+            Node temp = this.head.next;
             do {
                 System.out.print(temp.data + " -> ");
                 temp = temp.next;
-            } while (temp != this.head);
-            System.out.println("null");
+            } while (temp != this.head.next);
+            System.out.println("repeat");
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -156,8 +156,8 @@ class LinkedList {
      * @param message
      * 
      */
-    public void print(String message) {
-        System.out.println(message);
+    public void print(Object message) {
+        System.out.println(message.toString());
     }
 
     /**
@@ -166,15 +166,18 @@ class LinkedList {
      * 
      */
     public int size() {
-        Node temp = this.head;
-
         int count = 0;
-        // if(temp.data == this.head.data)
-        while (temp.data != this.head.data) {
-            temp = temp.next;
-            count++;
+
+        if (this.head != null) {
+            // first node of the list
+            Node temp = this.head.next;
+            do {
+                count++;
+                temp = temp.next;
+            } while (temp != this.head.next);
+
         }
-        // this.print("List size : " + count);
+
         return count;
     }
 
@@ -263,17 +266,21 @@ class LinkedList {
     }
 
     public Node find(int position) {
-        position = position - 1;
-        // taking first node reference for traversing
-        Node temp = this.head;
+        Node temp = null;
         int count = 1;
-        // traversing to the last element
-        while (temp.next.next != null) {
-            if (count == position) {
-                break;
-            }
-            temp = temp.next;
-            count++;
+        if (this.head != null) {
+            // taking first node reference for traversing
+            temp = this.head.next;
+
+            do {
+                if (count == position) {
+                    break;
+                }
+                count++;
+                temp = temp.next;
+                // traversing to the last element
+            } while (temp != this.head.next);
+
         }
         return temp;
     }
@@ -385,7 +392,7 @@ class LinkedList {
     }
 
     public static void main(String[] args) {
-        LinkedList llist = new LinkedList();
+        CircularLinkedList llist = new CircularLinkedList();
 
         // llist.addLast(100);
         // llist.addLast(200);
@@ -393,13 +400,20 @@ class LinkedList {
         // llist.addLast(400);
         // llist.addLast(500);
         // llist.addFirst(500);
-        // llist.add(1, 40);
-        llist.addFirst(40);
-        llist.addFirst(50);
-        llist.addFirst(60);
-        llist.addFirst(70);
+        llist.add(1, 40);
+        llist.add(1, 50);
+        // llist.print("head is pointing to : "+String.valueOf(llist.head.data));
+        llist.add(2, 60);
+        llist.add(1, 45);
+        llist.add(5, 80);
         llist.show();
-        // llist.print(String.valueOf(llist.head.next.next.next.data));
+        llist.print("size " + llist.size());
+        // llist.add(3, 70);
+        // llist.addFirst(40);
+        // llist.addFirst(50);
+        // llist.addFirst(60);
+        // llist.addFirst(70);
+        // llist.print(String.valueOf(llist.size()));
         // llist.update(70, 39);
         // llist.update(3, 39);
         // llist.update(4, 201);
