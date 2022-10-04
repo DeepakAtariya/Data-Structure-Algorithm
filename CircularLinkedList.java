@@ -34,9 +34,9 @@ class LinkedList {
                 }
                 // Going to push first element
                 this.head = node;
+				this.head.next = this.head;
 
             } else {
-
                 if (position <= 0) {
                     if (position < 0) {
                         this.print("Invalid postion given. Adding at first");
@@ -61,7 +61,6 @@ class LinkedList {
                         temp.next = node;
                     }
                 }
-
             }
 
         } catch (Exception e) {
@@ -94,7 +93,6 @@ class LinkedList {
 
                 // traversing to the last element
                 do {
-                    System.out.print(temp.data + " -> ");
                     temp = temp.next;
                 } while (temp != this.head);
 
@@ -168,15 +166,21 @@ class LinkedList {
      */
     public int size() {
         Node temp = this.head;
+		
+		if(temp!=null){
+			int count = 0;
+        	// if(temp.data == this.head.data)
+        	while (temp.data != this.head.data) {
+            	temp = temp.next;
+            	count++;
+        	}
+        	// this.print("List size : " + count);
+        	return count;
+		}else {
+			return 0;
+		}
 
-        int count = 0;
-        // if(temp.data == this.head.data)
-        while (temp.data != this.head.data) {
-            temp = temp.next;
-            count++;
-        }
-        // this.print("List size : " + count);
-        return count;
+        
     }
 
     public boolean deleteFirst() {
@@ -388,13 +392,15 @@ class LinkedList {
     public static void main(String[] args) {
         LinkedList llist = new LinkedList();
 
-        llist.addLast(100);
-         llist.addLast(200);
+        //llist.addLast(100);
+         //llist.addLast(200);
        // llist.addLast(300);
         // llist.addLast(400);
         // llist.addLast(500);
         // llist.addFirst(500);
-        // llist.add(1, 40);
+         llist.add(1, 40);
+		 llist.add(2, 50);
+		 llist.add(3, 60);
         //llist.addFirst(40);
         //llist.addFirst(50);
         //llist.addFirst(60);
