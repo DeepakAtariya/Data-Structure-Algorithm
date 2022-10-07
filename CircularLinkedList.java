@@ -21,6 +21,7 @@ class LinkedList {
         try {
             position = position - 1;
             int listSize = this.size();
+			this.print("list size : "+ String.valueOf(listSize));
 
             // creating a node
             Node node = new Node();
@@ -89,12 +90,12 @@ class LinkedList {
 
             } else {
                 // taking first node reference for traversing
-                Node temp = this.head;
+                Node temp = this.head.next;
 
                 // traversing to the last element
                 do {
                     temp = temp.next;
-                } while (temp != this.head);
+                } while (temp != this.head.next);
 
                 // storing node in last position
                 // temp.next = node;
@@ -168,9 +169,11 @@ class LinkedList {
         Node temp = this.head;
 		
 		if(temp!=null){
-			int count = 0;
+			//this.print("list is not null");
+			int count = 1;
         	// if(temp.data == this.head.data)
-        	while (temp.data != this.head.data) {
+			//this.print(String.valueOf(temp.data)+" -- "+String.valueOf(this.head.next.data));
+        	while (temp.data != this.head.next.data) {
             	temp = temp.next;
             	count++;
         	}
@@ -392,15 +395,17 @@ class LinkedList {
     public static void main(String[] args) {
         LinkedList llist = new LinkedList();
 
-        //llist.addLast(100);
-         //llist.addLast(200);
-       // llist.addLast(300);
+       // llist.addLast(100);
+        // llist.addLast(200);
+       //llist.addLast(300);
         // llist.addLast(400);
         // llist.addLast(500);
         // llist.addFirst(500);
-         llist.add(1, 40);
-		 llist.add(2, 50);
-		 llist.add(3, 60);
+         llist.add(5, 40);
+		llist.add(5, 50);
+		 //llist.print("head is pointing to : "+String.valueOf(llist.head.data));
+		llist.add(5, 60);
+		// llist.add(3, 70);
         //llist.addFirst(40);
         //llist.addFirst(50);
         //llist.addFirst(60);
