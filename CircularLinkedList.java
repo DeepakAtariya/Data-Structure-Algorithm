@@ -187,14 +187,14 @@ class CircularLinkedList {
             if (this.head == null) {
                 this.print("Nothing to delete");
             } else {
-                this.print("Going to delete : " + this.head.data);
-                this.head = this.head.next;
+                this.print("Deleted : " + this.head.next.data);
+                this.head.next = this.head.next.next;
             }
-            return true;
         } catch (Exception e) {
-            this.print("Error occured");
+            // this.print("Error occured");
+            throw e;
         }
-        return false;
+        return true;
     }
 
     public boolean deleteLast() {
@@ -203,17 +203,18 @@ class CircularLinkedList {
             if (this.head == null) {
                 this.print("Nothing to delete");
             } else {
-                Node temp = this.head;
-                while (temp.next.next != null) {
+                Node temp = this.head.next;
+                do {
                     temp = temp.next;
-                }
-                this.print("Going to delete : " + temp.next.data);
-                temp.next = null;
+                } while (temp.next != this.head);
+                this.print("Deleted : " + temp.next.data);
+                temp.next = this.head.next;
+                this.head = temp;
             }
         } catch (Exception e) {
-            this.print("Error occured");
+            throw e;
         }
-        return false;
+        return true;
     }
 
     public boolean delete(int position) {
@@ -244,13 +245,9 @@ class CircularLinkedList {
                         if (position > listSize) {
                             this.print("Given position is greater than list size");
                         } else {
-
-                            // searching node for particular position.
-                            Node temp = this.find(position);
-
-                            this.print("Going to delete : " + temp.next.data);
+                            // we will find an previous element of given position and de-reference target node
+                            Node temp = this.find(position - 1);
                             temp.next = temp.next.next;
-                            // temp.next = null;
                         }
                     }
 
@@ -394,20 +391,30 @@ class CircularLinkedList {
     public static void main(String[] args) {
         CircularLinkedList llist = new CircularLinkedList();
 
-        // llist.addLast(100);
-        // llist.addLast(200);
-        // llist.addLast(300);
-        // llist.addLast(400);
-        // llist.addLast(500);
-        // llist.addFirst(500);
+        // additions
         llist.add(1, 40);
         llist.add(1, 50);
         // llist.print("head is pointing to : "+String.valueOf(llist.head.data));
         llist.add(2, 60);
         llist.add(1, 45);
         llist.add(5, 80);
-        llist.show();
         llist.print("size " + llist.size());
+        llist.show();
+
+        // deletions
+        llist.deleteFirst();
+        llist.show();
+        llist.deleteLast();
+        llist.show();
+        llist.delete(-100);
+        llist.show();
+
+        // llist.addLast(100);
+        // llist.addLast(200);
+        // llist.addLast(300);
+        // llist.addLast(400);
+        // llist.addLast(500);
+        // llist.addFirst(500);
         // llist.add(3, 70);
         // llist.addFirst(40);
         // llist.addFirst(50);
