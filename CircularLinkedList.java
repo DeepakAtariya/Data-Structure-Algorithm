@@ -11,12 +11,6 @@ class CircularLinkedList {
         // }
     }
 
-    /**
-     * addLast insert an element at first position by default
-     * Completed
-     * 
-     * @param data
-     */
     public void add(int position, int data) {
         try {
             position = position - 1;
@@ -69,11 +63,6 @@ class CircularLinkedList {
         }
     }
 
-    /**
-     * addLast insert an element at first position by default
-     * 
-     * @param data
-     */
     public void addLast(int data) {
         try {
 
@@ -110,11 +99,6 @@ class CircularLinkedList {
         }
     }
 
-    /**
-     * addLast insert an element at last position by default
-     * 
-     * @param data
-     */
     public void addFirst(int data) {
         try {
             // creating a node
@@ -135,9 +119,6 @@ class CircularLinkedList {
         }
     }
 
-    /**
-     * 
-     */
     public void show() {
         try {
             Node temp = this.head.next;
@@ -160,11 +141,6 @@ class CircularLinkedList {
         System.out.println(message.toString());
     }
 
-    /**
-     * 
-     * @return
-     * 
-     */
     public int size() {
         int count = 0;
 
@@ -245,7 +221,8 @@ class CircularLinkedList {
                         if (position > listSize) {
                             this.print("Given position is greater than list size");
                         } else {
-                            // we will find an previous element of given position and de-reference target node
+                            // we will find an previous element of given position and de-reference target
+                            // node
                             Node temp = this.find(position - 1);
                             temp.next = temp.next.next;
                         }
@@ -285,43 +262,22 @@ class CircularLinkedList {
     public boolean update(int position, int data) {
         try {
             int listSize = this.size();
-
-            // checking whether list is empty or not
-            if (this.head == null) {
-                if (position > 1) {
-                    System.out.println("List is empty and nothing can be deleted...");
-                }
-            } else {
-
-                if (position <= 0) {
-                    if (position < 0) {
-                        this.print("Given position is smaller than list size");
-                    }
-                } else {
-
-                    if (position == 1) {
-                        // delete first element
-
-                        this.updateFirst(data);
-                    } else if (position == listSize) {
-                        // delete last element
-                        this.updateLast(data);
-                    } else {
-                        if (position > listSize) {
-                            this.print("Given position is greater than list size");
-                        } else {
-
-                            // searching node for particular position.
-                            Node temp = this.find(position + 1);
-
-                            this.print("Going to update : " + temp.data);
-                            temp.data = data;
-                            // temp.next = null;
-                        }
-                    }
-
-                }
+            
+            if (position > listSize || position <= 0) {
+                this.print("Invalid Position");
+                return true;
             }
+
+            if (this.head == null) {
+                this.print("Empty List");
+                return true;
+            }
+
+            // searching node for particular position.
+            Node temp = this.find(position);
+
+            this.print("Going to update : " + temp.data);
+            temp.data = data;
 
             return true;
 
@@ -335,14 +291,10 @@ class CircularLinkedList {
 
         try {
             if (this.head == null) {
-                this.print("Nothing to delete");
+                this.print("Nothing to udpate");
             } else {
-                Node temp = this.head;
-                while (temp.next != null) {
-                    temp = temp.next;
-                }
-                this.print("Going to update : " + temp.data);
-                temp.data = data;
+                this.print("Going to update : " + this.head.data);
+                this.head.data = data;
             }
             return true;
         } catch (Exception e) {
@@ -355,10 +307,10 @@ class CircularLinkedList {
 
         try {
             if (this.head == null) {
-                this.print("Nothing to delete");
+                this.print("Nothing to update");
             } else {
-                this.print("Going to delete : " + this.head.data);
-                this.head.data = data;
+                this.print("Going to update : " + this.head.next.data);
+                this.head.next.data = data;
             }
             return true;
         } catch (Exception e) {
@@ -387,10 +339,10 @@ class CircularLinkedList {
         fp.data = sp.data;
         sp.data = data;
     }
-
+    
     public static void main(String[] args) {
         CircularLinkedList llist = new CircularLinkedList();
-
+    
         // additions
         llist.add(1, 40);
         llist.add(1, 50);
@@ -400,7 +352,7 @@ class CircularLinkedList {
         llist.add(5, 80);
         llist.print("size " + llist.size());
         llist.show();
-
+    
         // deletions
         llist.deleteFirst();
         llist.show();
@@ -408,26 +360,14 @@ class CircularLinkedList {
         llist.show();
         llist.delete(-100);
         llist.show();
-
-        // llist.addLast(100);
-        // llist.addLast(200);
-        // llist.addLast(300);
-        // llist.addLast(400);
-        // llist.addLast(500);
-        // llist.addFirst(500);
-        // llist.add(3, 70);
-        // llist.addFirst(40);
-        // llist.addFirst(50);
-        // llist.addFirst(60);
-        // llist.addFirst(70);
-        // llist.print(String.valueOf(llist.size()));
-        // llist.update(70, 39);
-        // llist.update(3, 39);
-        // llist.update(4, 201);
-        // llist.update(2, 101);
-        // llist.show();
-        // llist.sort();
-        // llist.show();
-        // llist.show();
+    
+        llist.updateFirst(1);
+        llist.show();
+        llist.updateLast(3);
+        llist.show();
+        llist.update(1, 30);
+        llist.update(2, 31);
+        llist.update(3, 32);
+        llist.show();
     }
 }
