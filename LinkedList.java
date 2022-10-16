@@ -1,14 +1,20 @@
 class LinkedList {
 
     Node head = null;
+    final int FIRST_POSITION = 1;
 
     class Node {
         int data = 0;
         Node next = null;
 
-        // public int toString(Node node) {
-        // return node.data;
-        // }
+        Node(int data) {
+            this.data = data;
+        }
+    }
+
+    protected Node createNode(int data) {
+        // creating a node
+        return new Node(data);
     }
 
     /**
@@ -19,53 +25,21 @@ class LinkedList {
      */
     public void add(int position, int data) {
         try {
-            position = position - 1;
             int listSize = this.size();
+            position = listSize < position ? listSize : position;
+            Node node = this.createNode(data);
 
-            // creating a node
-            Node node = new Node();
-            node.data = data;
-            node.next = null;
-
-            // checking whether list is empty or not
-            if (this.head == null) {
-                if (position > 1) {
-                    System.out.println("List is empty and position is invalid. we are putting in first position");
-                }
-                // Going to push first element
-                this.head = node;
-
+            if (position > 0) {
+                Node temp = this.find(position);
+                node.next = temp.next;
+                temp.next = node;
             } else {
-
-                if (position <= 0) {
-                    if (position < 0) {
-                        this.print("Invalid postion given. Adding at first");
-                    }
-                    node = null;
-                    this.addFirst(data);
-                } else {
-                    if (position >= listSize) {
-                        if (position > listSize) {
-                            this.print("Invalid position given. Adding at last");
-                        }
-                        node = null;
-                        this.addLast(data);
-                    } else {
-
-                        // searching node for particular position.
-                        Node temp = this.find(position);
-
-                        // this.print(temp.data + " is found at " + count);
-                        // storing node in last position
-                        node.next = temp.next;
-                        temp.next = node;
-                    }
-                }
-
+                node.next = this.head;
+                this.head = node;
             }
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("Invalid input");
         }
     }
 
@@ -76,30 +50,8 @@ class LinkedList {
      */
     public void addLast(int data) {
         try {
-
-            // creating a node
-            Node node = new Node();
-            node.data = data;
-            node.next = null;
-
-            // checking whether list is empty or not
-            if (this.head == null) {
-                // Going to push first element
-                this.head = node;
-
-            } else {
-                // taking first node reference for traversing
-                Node temp = this.head;
-
-                // traversing to the last element
-                while (temp.next != null) {
-
-                    temp = temp.next;
-                }
-
-                // storing node in last position
-                temp.next = node;
-            }
+            int listSize = this.size();
+            this.add(listSize, data);
 
         } catch (Exception e) {
             System.out.println(e);
@@ -113,22 +65,12 @@ class LinkedList {
      */
     public void addFirst(int data) {
         try {
-            // creating a node
-            Node node = new Node();
-            node.data = data;
-            // assigin old reference to new node
-            node.next = this.head;
-
-            // assiging the new node to head (first node)
-            this.head = node;
+            this.add(this.FIRST_POSITION - 1, data);
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    /**
-     * 
-     */
     public void show() {
         try {
 
@@ -144,20 +86,10 @@ class LinkedList {
         }
     }
 
-    /**
-     * 
-     * @param message
-     * 
-     */
     public void print(String message) {
         System.out.println(message);
     }
 
-    /**
-     * 
-     * @return
-     * 
-     */
     public int size() {
         Node temp = this.head;
 
@@ -166,87 +98,49 @@ class LinkedList {
             temp = temp.next;
             count++;
         }
-        // this.print("List size : " + count);
         return count;
     }
 
     public boolean deleteFirst() {
-
         try {
-            if (this.head == null) {
-                this.print("Nothing to delete");
-            } else {
-                this.print("Going to delete : " + this.head.data);
-                this.head = this.head.next;
-            }
-            return true;
+            return this.delete(this.FIRST_POSITION);
         } catch (Exception e) {
-            this.print("Error occured");
+            return false;
         }
-        return false;
     }
 
     public boolean deleteLast() {
 
         try {
-            if (this.head == null) {
-                this.print("Nothing to delete");
-            } else {
-                Node temp = this.head;
-                while (temp.next.next != null) {
-                    temp = temp.next;
-                }
-                this.print("Going to delete : " + temp.next.data);
-                temp.next = null;
-            }
+            int listSize = this.size();
+            return this.delete(listSize);
         } catch (Exception e) {
-            this.print("Error occured");
+            this.print("Unable to delete");
+            return false;
         }
-        return false;
     }
 
     public boolean delete(int position) {
 
         try {
             int listSize = this.size();
-
-            // checking whether list is empty or not
-            if (this.head == null) {
-                if (position > 1) {
-                    System.out.println("List is empty and nothing can be deleted...");
+            if (listSize > 0) {
+                position = position - 1;
+                if (position > 0 && position <= listSize) {
+                    Node temp = this.find(position);
+                    if (position == listSize - 1) {
+                        temp.next = null;
+                    } else {
+                        temp.next = temp.next.next;
+                    }
+                } else if (position == 0) {
+                    this.head = this.head.next;
+                } else {
+                    this.print("Invalid Position : " + position);
                 }
             } else {
-
-                if (position <= 0) {
-                    if (position < 0) {
-                        this.print("Given position is smaller than list size");
-                    }
-                } else {
-
-                    if (position == 1) {
-                        // delete first element
-                        this.deleteFirst();
-                    } else if (position == listSize) {
-                        // delete last element
-                        this.deleteLast();
-                    } else {
-                        if (position > listSize) {
-                            this.print("Given position is greater than list size");
-                        } else {
-
-                            // searching node for particular position.
-                            Node temp = this.find(position);
-
-                            this.print("Going to delete : " + temp.next.data);
-                            temp.next = temp.next.next;
-                            // temp.next = null;
-                        }
-                    }
-
-                }
-
+                throw new Exception("List is empty");
             }
-
             return true;
         } catch (Exception e) {
             System.out.println(e);
@@ -255,12 +149,11 @@ class LinkedList {
     }
 
     public Node find(int position) {
-        position = position - 1;
         // taking first node reference for traversing
         Node temp = this.head;
         int count = 1;
         // traversing to the last element
-        while (temp.next.next != null) {
+        while (temp.next != null) {
             if (count == position) {
                 break;
             }
@@ -271,68 +164,31 @@ class LinkedList {
     }
 
     public boolean update(int position, int data) {
+
         try {
             int listSize = this.size();
-
-            // checking whether list is empty or not
-            if (this.head == null) {
-                if (position > 1) {
-                    System.out.println("List is empty and nothing can be deleted...");
+            if (listSize > 0) {
+                if (position <= listSize) {
+                    Node temp = this.find(position);
+                    temp.data = data;
+                } else {
+                    this.print("Invalid Position : " + position);
                 }
             } else {
-
-                if (position <= 0) {
-                    if (position < 0) {
-                        this.print("Given position is smaller than list size");
-                    }
-                } else {
-
-                    if (position == 1) {
-                        // delete first element
-                        
-                        this.updateFirst(data);
-                    } else if (position == listSize) {
-                        // delete last element
-                        this.updateLast(data);
-                    } else {
-                        if (position > listSize) {
-                            this.print("Given position is greater than list size");
-                        } else {
-
-                            // searching node for particular position.
-                            Node temp = this.find(position + 1);
-
-                            this.print("Going to update : " + temp.data);
-                            temp.data = data;
-                            // temp.next = null;
-                        }
-                    }
-
-                }
+                throw new Exception("List is empty");
             }
-
             return true;
-
         } catch (Exception e) {
             System.out.println(e);
         }
+
         return false;
     }
 
     public boolean updateLast(int data) {
-
         try {
-            if (this.head == null) {
-                this.print("Nothing to delete");
-            } else {
-                Node temp = this.head;
-                while (temp.next != null) {
-                    temp = temp.next;
-                }
-                this.print("Going to update : " + temp.data);
-                temp.data = data;
-            }
-            return true;
+            int last = this.size();
+            return this.update(last, data);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -340,15 +196,8 @@ class LinkedList {
     }
 
     public boolean updateFirst(int data) {
-
         try {
-            if (this.head == null) {
-                this.print("Nothing to delete");
-            } else {
-                this.print("Going to delete : " + this.head.data);
-                this.head.data = data;
-            }
-            return true;
+            return this.update(this.FIRST_POSITION, data);
         } catch (Exception e) {
             this.print("Error occured");
         }
@@ -357,7 +206,6 @@ class LinkedList {
 
     public void sort() {
         Node fp = this.head;
-
         while (fp.next != null) {
             Node sp = fp.next;
             while (sp != null) {
@@ -376,22 +224,22 @@ class LinkedList {
         sp.data = data;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         LinkedList llist = new LinkedList();
 
-        llist.addLast(100);
-        llist.addLast(200);
-        llist.addFirst(50);
-        llist.addFirst(500);
-        llist.add(1, 40);
+        
+        llist.add(1, 10);
+        llist.add(3, 20);
+        llist.add(2, 40);
+        llist.add(-50, 05);
+        llist.add(0, 5000);
+        
         llist.show();
-        llist.update(70, 39);
-        // llist.update(3, 39);
-        // llist.update(4, 201);
-        // llist.update(2, 101);
+        llist.deleteFirst();
+        
         llist.show();
-        // llist.sort();
-        // llist.show();
-        // llist.show();
+        llist.updateLast(101);
+        llist.show();
+        
     }
 }
