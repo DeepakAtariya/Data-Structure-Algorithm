@@ -1,4 +1,4 @@
-class Stack {
+class Queue {
 
     Node head = null;
     Node pushPointer = null;
@@ -45,20 +45,26 @@ class Stack {
 
     public void show() {
         try {
-
+            this.print("", true);
             Node temp = this.head;
             while (temp != null) {
-                System.out.println(temp.data);
+                this.print(temp.data + " -> ", false);
                 temp = temp.next;
             }
+            this.print("end", false);
 
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public void print(String message) {
-        System.out.println(message);
+    public void print(Object message, Boolean newLine) {
+        if (newLine) {
+            System.out.println(message.toString());
+        } else {
+
+            System.out.print(message.toString());
+        }
     }
 
     public int size() {
@@ -79,19 +85,13 @@ class Stack {
      * @return Boolean
      * @author Deepak Atariya
      */
-    public boolean deQueue() {
+    public void deQueue() {
+        this.print("", true);
         try {
-            int listSize = this.size();
-            if (listSize <= 0) {
-                this.print("Stack is empty!");
-                return false;
-            }
-            Node temp = this.find(listSize - 1);
-            temp.next = null;
-            return true;
+            this.print("Dequeued : " + this.head.data, false);
+            this.head = this.head.next;
         } catch (Exception e) {
-            this.print("Unable to delete");
-            return false;
+            this.print("Unable to delete", true);
         }
     }
 
@@ -114,9 +114,30 @@ class Stack {
         llist.enQueue(10);
         llist.enQueue(20);
         llist.enQueue(30);
+        llist.enQueue(40);
+        llist.enQueue(50);
+        llist.enQueue(60);
+        llist.enQueue(70);
+        llist.enQueue(80);
+        llist.enQueue(90);
+        llist.enQueue(100);
         llist.show();
         llist.deQueue();
         llist.show();
+        llist.deQueue();
+        llist.show();
+        // llist.deQueue();
+        // llist.show();
+        // llist.deQueue();
+        // llist.show();
+        // llist.deQueue();
+        // llist.show();
+        // llist.deQueue();
+        // llist.show();
+        // llist.deQueue();
+        // llist.show();
+        // llist.deQueue();
+        // llist.show();
 
     }
 }
