@@ -1,5 +1,5 @@
 public class OneAway {
-    
+
     static boolean unMatchedLenCase(String s1, String s2, int len) {
 
         int s1p = 0;
@@ -7,7 +7,7 @@ public class OneAway {
         int cc = 0;
 
         for (int i = 0; i < len; i++) {
-            if (s1.charAt(s1p) != s2.charAt(s2p)) {
+            if (s2.charAt(s1p) != s1.charAt(s2p)) {
                 cc++;
                 s2p++;
             } else {
