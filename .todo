@@ -1,0 +1,21 @@
+Data structures:
+1. Linear Data Structure
+    - Linked List
+        - Singly 
+        - Double
+        - Circular
+    - Arrays
+    - Stack 
+        - Arrays impl
+        - Linked List Impl
+    - Queues
+        - Priority Queue
+2. Non-Linear Data Structure
+    - Tress
+        - Simple Tree
+        - Binary Search True
+        - Balanced BST
+        - B-Tree
+    - Graphs
+        - Breath First Search
+        - Depth First Search
